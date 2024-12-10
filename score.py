@@ -22,7 +22,7 @@ from transformers import pipeline
 
 SYSTEM_MESSAGE = 'You are a helpful assistant'
 
-SCORE_RE = re.compile(r'Educational score: ([0-5])')
+SCORE_RE = re.compile(r'Educational score: ([0-5])\b')
 
 # Generation args from
 # https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu-llama3-annotations/discussions/3#6660891c1552bdf08cadd9c3:
@@ -66,14 +66,6 @@ def load_data(args):
         data_files=args.infile,
         split='train'
     )
-
-
-def get_score(output):
-    m = SCORE_RE.search(output)
-    if not m:
-        return None
-    else:
-        return m.group(1)
 
 
 def apply_template(tokenizer, prompt):
